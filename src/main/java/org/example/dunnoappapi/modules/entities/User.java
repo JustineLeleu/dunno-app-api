@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Setter
 @Getter
@@ -13,8 +14,8 @@ import java.util.Date;
 @Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Short id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     private String username;
 
@@ -29,7 +30,6 @@ public class User {
             },
             fetch = FetchType.EAGER
     )
-    //@JsonIgnoreProperties(value = { "contacts","invoices" })
     @JoinColumn(name = "role_id")
     private Role role;
 
@@ -40,13 +40,14 @@ public class User {
             },
             fetch = FetchType.EAGER
     )
-    //@JsonIgnoreProperties(value = { "contacts","invoices" })
     @JoinColumn(name = "membership_id")
     private Membership membership;
 
     private Date subscription_start;
 
     private Date subscription_end;
+
+    private boolean trial;
 
     @CreationTimestamp
     @Column(name = "timestamp", nullable = false, updatable = false, insertable = false)

@@ -8,6 +8,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,5 +30,11 @@ public class GlobalExceptionHandler {
                 .map(FieldError::getDefaultMessage)
                 .collect(Collectors.toList());
         return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(CreationFailedException.class)
+    public ResponseEntity<Map<String, List<String>>> handleCreationFailedException(CreationFailedException ex){
+        List<String> errors = ex.errorMessages;
+        return new ResponseEntity<>(getErrorsMap(errors), new HttpHeaders(), HttpStatus.EXPECTATION_FAILED);
     }
 }

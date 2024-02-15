@@ -3,16 +3,9 @@ package org.example.dunnoappapi.modules.dtos;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 import org.example.dunnoappapi.modules.entities.User;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Data
 public class UserDto {
-
-    //private BCryptPasswordEncoder passwordEncoder;
-
-//    public UserDto(BCryptPasswordEncoder passwordEncoder){
-//        this.passwordEncoder = passwordEncoder;
-//    }
 
     @NotBlank(message = "Invalid username: Empty username")
     @NotNull(message = "Invalid username: Username is NULL")
@@ -30,12 +23,4 @@ public class UserDto {
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{6,30}$",
             message = "Invalid password, your password must contain at least one uppercase letter, one lowercase letter and one number")
     private String password;
-
-    public User toUser(){
-        User user = new User();
-        user.setUsername(username);
-        user.setEmail(email);
-        user.setPassword(password);
-        return user;
-    }
 }

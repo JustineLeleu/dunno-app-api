@@ -4,7 +4,7 @@ import org.example.dunnoappapi.modules.entities.User;
 import org.example.dunnoappapi.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -15,8 +15,16 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public List<User> getAllUsers(){
-        return (List<User>) userRepository.findAll();
+    public User getUserById(UUID id){
+        return userRepository.findById(id);
+    }
+
+    public boolean userExistByUsername(String username){
+        return userRepository.existsByUsername(username);
+    }
+
+    public boolean userExistByEmail(String email){
+        return userRepository.existsByEmail(email);
     }
 
     public void createUser(User user){
