@@ -65,6 +65,7 @@ public class UserController {
         return new ResponseEntity<>("User created", HttpStatus.CREATED);
     }
 
+    // Update user: add premium and calculate subscription end
     @RequestMapping(value = "/api/user/{id}", method = RequestMethod.PUT, params = {"membershipId"})
     public ResponseEntity<Object> updateUser(@PathVariable UUID id, @RequestParam Short membershipId){
         User user = userService.getUserById(id);
@@ -85,6 +86,7 @@ public class UserController {
         return new ResponseEntity<>("User updated", HttpStatus.OK);
     }
 
+    // Update the user: remove premium
     @RequestMapping(value = "/api/user/{id}", method = RequestMethod.PUT, params = {})
     public ResponseEntity<Object> updateUser(@PathVariable UUID id){
         User user = userService.getUserById(id);
@@ -96,5 +98,28 @@ public class UserController {
 
         userService.createUser(user);
         return new ResponseEntity<>("User updated", HttpStatus.OK);
+    }
+
+    // Update the user: already premium and add months to subscription
+    // ! problem with membership type if change ?
+    @RequestMapping(value = "/api/user/{id}", method = RequestMethod.PUT, params = {"months"})
+    public ResponseEntity<Object> updateUser(@PathVariable UUID id, @RequestParam int months){
+        User user = userService.getUserById(id);
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(user.getSubscription_end());
+        cal.add(Calendar.MONTH, months);
+        Date end = cal.getTime();
+        user.setSubscription_end(end);
+
+        userService.createUser(user);
+        return new ResponseEntity<>("User updated", HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/api/user/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Object> deleteUser(@PathVariable UUID id){
+        User user = userService.getUserById(id);
+        userService.deleteUser(user);
+        return new ResponseEntity<>("User deleted", HttpStatus.OK);
     }
 }

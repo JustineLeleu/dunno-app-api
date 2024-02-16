@@ -30,4 +30,8 @@ public class UserService {
     public void createUser(User user){
         userRepository.save(user);
     }
+
+    public void deleteUser(User user){
+        userRepository.delete(user);
+    }
 }
