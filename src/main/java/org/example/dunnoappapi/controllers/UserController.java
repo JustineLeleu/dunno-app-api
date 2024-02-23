@@ -55,7 +55,7 @@ public class UserController {
         }
 
         newUser.setUsername(userDto.getUsername());
-        newUser.setEmail(userDto.getEmail());
+        newUser.setEmail(userDto.getEmail().toLowerCase());
         newUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
         newUser.setRole(roleService.getRoleById((short) 1));

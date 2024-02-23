@@ -1,16 +1,13 @@
 package org.example.dunnoappapi.modules.dtos;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
 public class LoginDto {
-    @NotBlank(message = "Invalid username: Empty username")
-    @NotNull(message = "Invalid username: Username is NULL")
+    @NotBlank(message = "Username:Enter your username")
     private String username;
 
-    @NotBlank(message = "Invalid password: Empty password")
-    @NotNull(message = "Invalid password: Password is NULL")
+    @NotBlank(message = "Password:Enter your password")
     private String password;
 }
