@@ -1,7 +1,6 @@
 package org.example.dunnoappapi.controllers;
 
 import jakarta.validation.Valid;
-import jakarta.websocket.server.PathParam;
 import org.example.dunnoappapi.exceptions.CreationFailedException;
 import org.example.dunnoappapi.modules.dtos.UserDto;
 import org.example.dunnoappapi.modules.entities.Membership;
@@ -9,13 +8,11 @@ import org.example.dunnoappapi.modules.entities.User;
 import org.example.dunnoappapi.services.MembershipService;
 import org.example.dunnoappapi.services.RoleService;
 import org.example.dunnoappapi.services.UserService;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
@@ -42,16 +39,8 @@ public class UserController {
     public ResponseEntity<Object> addUser(@Valid @RequestBody UserDto userDto) {
         User newUser = new User();
 
-        try{
-            if (userService.userExistByUsername(userDto.getUsername()) || userService.userExistByEmail(userDto.getEmail()))
-                throw new CreationFailedException("error");
-        }catch (CreationFailedException ex){
-            List<String> messages = new ArrayList<>();
-            if (userService.userExistByUsername(userDto.getUsername()))
-                messages.add("Username already exist");
-            if (userService.userExistByEmail(userDto.getEmail()))
-                messages.add("Email already used");
-            throw new CreationFailedException(messages);
+        if (userService.userExistByUsername(userDto.getUsername()) || userService.userExistByEmail(userDto.getEmail())){
+            throw new CreationFailedException("Username or email already taken");
         }
 
         newUser.setUsername(userDto.getUsername());
@@ -87,7 +76,7 @@ public class UserController {
     }
 
     // Update the user: remove premium
-    @RequestMapping(value = "/api/user/{id}", method = RequestMethod.PUT, params = {})
+    @RequestMapping(value = "/api/user/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Object> updateUser(@PathVariable UUID id){
         User user = userService.getUserById(id);
 
