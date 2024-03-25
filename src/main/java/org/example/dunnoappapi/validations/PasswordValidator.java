@@ -32,7 +32,7 @@ public class PasswordValidator implements ConstraintValidator<Password, String> 
             context.buildConstraintViolationWithTemplate("Password:" + messageNotEmpty).addConstraintViolation();
             return false;
         }
-        if (notEmpty && value.isEmpty()) {
+        if (value != null && notEmpty && value.isEmpty()) {
             context.buildConstraintViolationWithTemplate("Password:" + messageNotEmpty).addConstraintViolation();
             return false;
         }
