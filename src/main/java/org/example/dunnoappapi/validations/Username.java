@@ -14,6 +14,8 @@ public @interface Username {
 
     String messageLength() default "Wrong length of field";
 
+    boolean notNull() default true;
+
     boolean notEmpty() default false;
 
     int min() default 0;

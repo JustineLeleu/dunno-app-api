@@ -56,21 +56,21 @@ public class UserController {
     }
 
     // Update user: add premium and calculate subscription end
-    @RequestMapping(value = "/api/user/{id}", method = RequestMethod.PUT, params = {"user"})
+    @RequestMapping(value = "/api/user/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Object> updateUser(@PathVariable UUID id, @Valid @RequestBody UserUpdateDto userDto){
         User user = userService.getUserById(id);
 
         if (userDto.getUsername() != null) user.setUsername(userDto.getUsername());
         if (userDto.getEmail() != null) user.setEmail(userDto.getEmail());
-        if(userDto.getPassword() != null) user.setPassword(userDto.getPassword());
+        if (userDto.getPassword() != null) user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
         userService.createUser(user);
         return new ResponseEntity<>("User updated", HttpStatus.OK);
     }
 
     // Update user: add premium and calculate subscription end
-    @RequestMapping(value = "/api/user/{id}", method = RequestMethod.PUT, params = {"membershipId"})
-    public ResponseEntity<Object> updateUser(@PathVariable UUID id, @RequestParam Short membershipId){
+    @RequestMapping(value = "/api/user/subscription/{id}", method = RequestMethod.PUT, params = {"membershipId"})
+    public ResponseEntity<Object> updateUserSubscription(@PathVariable UUID id, @RequestParam Short membershipId){
         User user = userService.getUserById(id);
 
         Membership membership = membershipService.getMembershipById(membershipId);
@@ -86,12 +86,12 @@ public class UserController {
         user.setSubscription_end(end);
 
         userService.createUser(user);
-        return new ResponseEntity<>("User updated", HttpStatus.OK);
+        return new ResponseEntity<>("User updated: add premium", HttpStatus.OK);
     }
 
     // Update the user: remove premium
-    @RequestMapping(value = "/api/user/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Object> updateUser(@PathVariable UUID id){
+    @RequestMapping(value = "/api/user/subscription/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Object> updateUserSubscription(@PathVariable UUID id){
         User user = userService.getUserById(id);
 
         user.setRole(roleService.getRoleById((short) 1));
@@ -100,13 +100,13 @@ public class UserController {
         user.setSubscription_end(null);
 
         userService.createUser(user);
-        return new ResponseEntity<>("User updated", HttpStatus.OK);
+        return new ResponseEntity<>("User updated: remove premium", HttpStatus.OK);
     }
 
     // Update the user: already premium and add months to subscription
     // ! problem with membership type if change ?
-    @RequestMapping(value = "/api/user/{id}", method = RequestMethod.PUT, params = {"months"})
-    public ResponseEntity<Object> updateUser(@PathVariable UUID id, @RequestParam int months){
+    @RequestMapping(value = "/api/user/subscription/{id}", method = RequestMethod.PUT, params = {"months"})
+    public ResponseEntity<Object> updateUserSubscription(@PathVariable UUID id, @RequestParam int months){
         User user = userService.getUserById(id);
 
         Calendar cal = Calendar.getInstance();
@@ -116,7 +116,7 @@ public class UserController {
         user.setSubscription_end(end);
 
         userService.createUser(user);
-        return new ResponseEntity<>("User updated", HttpStatus.OK);
+        return new ResponseEntity<>("User updated: add months", HttpStatus.OK);
     }
 
     @RequestMapping(value = "/api/user/{id}", method = RequestMethod.DELETE)

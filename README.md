@@ -24,17 +24,17 @@ This API is designed to handle user registration and login for the I Dunno App. 
 
 ### Endpoints
 
-| Method | Endpoint       | Description                                                    | Request Body                    | Response Body |
-|:-------|:---------------|:---------------------------------------------------------------|:--------------------------------|:--------------|
-| POST   | /register      | Register a new user                                            | UserDto object                  | Login info    |
-| POST   | /login         | Login a user                                                   | LoginDto object                 | Login info    |
-| POST   | /api/user      | Add a new user                                                 | UserDto object                  | User created  |
-| GET    | /api/user/{id} | Get a user                                                     | id=[UUID]                       | User object   |
-| PUT    | /api/user/{id} | Update a user (username, email or password)                    | id=[UUID], UserUpdateDto        | User updated  |
-| PUT    | /api/user/{id} | Update a user (add premium and calculate subscription end)     | id=[UUID], membershipId=[Short] | User updated  |
-| PUT    | /api/user/{id} | Update a user (remove premium)                                 | id=[UUID]                       | User updated  |
-| PUT    | /api/user/{id} | Update a user (already premium and add months to subscription) | id=[UUID], months=[Integer]     | User updated  |
-| DELETE | /api/user/{id} | Delete a user                                                  | id=[UUID]                       | User deleted  |
+| Method | Endpoint                    | Description                                                    | Request Body                    | Response Body |
+|:-------|:----------------------------|:---------------------------------------------------------------|:--------------------------------|:--------------|
+| POST   | /register                   | Register a new user                                            | UserDto object                  | Login info    |
+| POST   | /login                      | Login a user                                                   | LoginDto object                 | Login info    |
+| POST   | /api/user                   | Add a new user                                                 | UserDto object                  | User created  |
+| GET    | /api/user/{id}              | Get a user                                                     | id=[UUID]                       | User object   |
+| PUT    | /api/user/{id}              | Update a user (username, email or password)                    | id=[UUID], UserUpdateDto        | User updated  |
+| PUT    | /api/user/subscription/{id} | Update a user (add premium and calculate subscription end)     | id=[UUID], membershipId=[Short] | User updated  |
+| PUT    | /api/user/subscription/{id} | Update a user (remove premium)                                 | id=[UUID]                       | User updated  |
+| PUT    | /api/user/subscription/{id} | Update a user (already premium and add months to subscription) | id=[UUID], months=[Integer]     | User updated  |
+| DELETE | /api/user/subscription/{id} | Delete a user                                                  | id=[UUID]                       | User deleted  |
 
 ## Team
 - [Valentin](https://github.com/Valentin-Lefort)

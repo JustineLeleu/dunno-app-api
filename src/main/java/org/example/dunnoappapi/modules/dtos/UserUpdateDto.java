@@ -7,16 +7,16 @@ import org.example.dunnoappapi.validations.Username;
 
 @Data
 public class UserUpdateDto {
-    @Username(notEmpty = false, min = 3, max = 26,
+    @Username(notNull = false, min = 3, max = 26,
             messageLength = "Minimum 3 characters required",
             message = "Wrong or invalid username")
     private String username;
 
-    @Email(notEmpty = false,
+    @Email(notNull = false,
             message = "Wrong or invalid e-mail")
     private String email;
 
-    @Password(notEmpty = false, min = 6, max = 26, strongPassword = true,
+    @Password(notNull = false, min = 6, max = 26, strongPassword = true,
             messageLength = "Minimum 6 characters required",
             message = "Must contain one uppercase and one number")
     private String password;

@@ -15,6 +15,8 @@ public @interface Email {
 
     String messageNotEmpty() default "Field can't be empty";
 
+    boolean notNull() default true;
+
     boolean notEmpty() default false;
 
     Class<?>[] groups() default {};

@@ -16,6 +16,7 @@ public @interface Password {
     String messageNotEmpty() default "Field can't be empty";
 
     String messageLength() default "Wrong length of field";
+    boolean notNull() default true;
 
     boolean notEmpty() default false;
 
