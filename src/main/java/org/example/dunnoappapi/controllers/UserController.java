@@ -3,6 +3,7 @@ package org.example.dunnoappapi.controllers;
 import jakarta.validation.Valid;
 import org.example.dunnoappapi.exceptions.CreationFailedException;
 import org.example.dunnoappapi.modules.dtos.UserDto;
+import org.example.dunnoappapi.modules.dtos.UserUpdateDto;
 import org.example.dunnoappapi.modules.entities.Membership;
 import org.example.dunnoappapi.modules.entities.User;
 import org.example.dunnoappapi.services.MembershipService;
@@ -52,6 +53,19 @@ public class UserController {
         userService.createUser(newUser);
 
         return new ResponseEntity<>("User created", HttpStatus.CREATED);
+    }
+
+    // Update user: add premium and calculate subscription end
+    @RequestMapping(value = "/api/user/{id}", method = RequestMethod.PUT, params = {"user"})
+    public ResponseEntity<Object> updateUser(@PathVariable UUID id, @Valid @RequestBody UserUpdateDto userDto){
+        User user = userService.getUserById(id);
+
+        if (userDto.getUsername() != null) user.setUsername(userDto.getUsername());
+        if (userDto.getEmail() != null) user.setEmail(userDto.getEmail());
+        if(userDto.getPassword() != null) user.setPassword(userDto.getPassword());
+
+        userService.createUser(user);
+        return new ResponseEntity<>("User updated", HttpStatus.OK);
     }
 
     // Update user: add premium and calculate subscription end
